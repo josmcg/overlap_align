@@ -20,14 +20,14 @@ function traceback(score_matrix::ScoreMatrix)
 	while curr != last
 		element::Cell = getindex(score_matrix,curr.i, curr.j)
 		if element.direction == UP
-			strB = string(score_matrix.strandB[curr.j-1], strB)
+			strB = string(score_matrix.strandB[curr.i-1], strB)
 			strA = string("-" , strA)
 		elseif element.direction == LEFT
-			strA =  string(score_matrix.strandA[curr.i-1] ,strA)
+			strA =  string(score_matrix.strandA[curr.j-1] ,strA)
 			strB = string("-", strB)
 		elseif element.direction == DIAG
-			strA = string(score_matrix.strandA[curr.i-1], strA)
-			strB = string(score_matrix.strandB[curr.j-1],strB)
+			strA = string(score_matrix.strandA[curr.j-1], strA)
+			strB = string(score_matrix.strandB[curr.i-1],strB)
 		end
 		curr = element.traceback
 	end
@@ -60,14 +60,13 @@ function getScore(matrix::ScoreMatrix, scores::Scores, i::Int, j::Int)
 	leftTuple::Tuple{Float64, DIRECTION} = (left, LEFT)
 	diagTuple::Tuple{Float64, DIRECTION} = (diag, DIAG)
 	list = sort([ leftTuple,diagTuple,upTuple],alg=MergeSort, by= x->x[1])
-	println(list)
 	best::Tuple{Float64,DIRECTION} = list[3]
 	dir::DIRECTION = best[2]
 	pt::Point = Point(0,0)
 	if dir == UP
-		pt = Point(i, j-1)
-	elseif dir == LEFT
 		pt = Point(i-1, j)
+	elseif dir == LEFT
+		pt = Point(i, j-1)
 	elseif dir == DIAG
 		pt = Point(i-1,j-1)
 	else 
@@ -76,6 +75,21 @@ function getScore(matrix::ScoreMatrix, scores::Scores, i::Int, j::Int)
 	return Cell(best[1], pt, best[2])
 end
 
-mat = makeScoreMatrix("./small_ties.txt", 1 , -1, -1)
-traceback(mat)
-#Profile.print()
+function getOptimalScore(matrix::ScoreMatrix)
+	last_i, last_j = size(matrix.matrix)
+	max = -Inf
+	for i = 1:last_i
+		for j =1:last_j
+			if max < getindex(matrix, i, j).score
+				max = getindex(matrix, i,j).score
+			end
+		end
+	end
+	max
+end	
+
+if length(ARGS) > 1
+	println("running on $(ARGS[1])")
+	mat = makeScoreMatrix(ARGS[1],parse(Int64,ARGS[2]),parse(Int64,ARGS[3]), parse(Int64,ARGS[4]))
+	traceback(mat)
+end
