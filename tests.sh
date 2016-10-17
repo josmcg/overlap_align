@@ -4,7 +4,9 @@
 
 /Applications/Julia-0.5.app/Contents/Resources/julia/bin/julia align.jl ./small_both_ties_input.txt 1 -1 -1
 
-/Applications/Julia-0.5.app/Contents/Resources/julia/bin/julia align.jl ./medium_traceback_ties_input.txt 1 -1 -1   
 /Applications/Julia-0.5.app/Contents/Resources/julia/bin/julia align.jl ./small_traceback_ties_input.txt 1 -1 -1 
 
+/Applications/Julia-0.5.app/Contents/Resources/julia/bin/julia align.jl ./small_last_row_ties_input.txt 1 -1 -1
 
+/Applications/Julia-0.5.app/Contents/Resources/julia/bin/julia align.jl ./small_unequal_lengths_no_ties_input.txt 1 -1 -1
+/Applications/Julia-0.5.app/Contents/Resources/julia/bin/julia align.jl ./medium_traceback_ties_input.txt 1 -1 -1

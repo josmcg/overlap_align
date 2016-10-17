@@ -31,6 +31,8 @@ type ScoreMatrix
 end
 
 function matrixFactory(strandA::String, strandB::String)
+	strandA = normalize_string(strandA, stripcc= true)
+	strandB = normalize_string(strandB, stripcc = true)
 	arr = Array{Cell}(length(strandA), length(strandB))
 	ScoreMatrix(arr, strandA, strandB)
 end
